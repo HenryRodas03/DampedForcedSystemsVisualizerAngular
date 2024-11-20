@@ -1,0 +1,76 @@
+<div class="mainCointainer">
+
+    <div class="fieldsContainer">
+
+        <div class="inputsContainer">
+
+            <form class="example-form" [formGroup]="constantsForm">
+
+                <div>
+                    <h3>Constantes</h3>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>ingrese masa (M)</mat-label>
+                        <input type="number" matInput placeholder="Masa" formControlName="m">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>ingrese constate elastica (K)</mat-label>
+                        <input type="number" matInput placeholder="constate elastica" formControlName="k">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>ingrese constante de amortiguamiento (B)</mat-label>
+                        <input type="number" matInput placeholder="constante de amortiguamiento" formControlName="b">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>ingrese valor inicial (C1)</mat-label>
+                        <input type="number" matInput placeholder="valor inicial" formControlName="c1">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>ingrese valor inicial (C2)</mat-label>
+                        <input type="number" matInput placeholder="valor inicial" formControlName="c2">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <h3>Función de fuerza (Ft)</h3>
+
+                    <mat-radio-group aria-label="Select an option" formControlName="ftType"
+                        (change)="onFtTypeChange($event)">
+                        <mat-radio-button [value]="1">Ft = 0</mat-radio-button>
+                        <mat-radio-button [value]="2"><input type="number" class="no-spin"
+                                onInput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                formControlName="fT1">Seno(<input type="number" class="no-spin"
+                                onInput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                formControlName="fT2">t)</mat-radio-button>
+                        <mat-radio-button [value]="3">Ft = t</mat-radio-button>
+                    </mat-radio-group>
+
+                </div>
+            </form>
+
+        </div>
+
+        <div class="graphicContainer">
+
+            <div style="text-align: center;
+            background-color: #6c5483;
+            border-radius: 14px; box-shadow: 3px 4px rgb(255 113 244 / 49%);">
+                <h4>Sistema: {{sistemType}} </h4>
+            </div>
+
+            <div class="chart">
+                <canvas #chartCanvas></canvas>
+            </div>
+
+            <div class="calculateButton">
+                <button style="margin-left: 5%;" mat-flat-button (click)="sendData()">Calcular</button>
+                <button style="margin-left: 5%;" mat-flat-button (click)="clean()"
+                    [hidden]="sistemType == ''">Limpiar</button>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+</div>
