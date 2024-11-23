@@ -18,9 +18,10 @@ import {
 } from '@angular/forms';
 import { HomeService } from '../services/home.service';
 import { Chart, registerables } from 'chart.js';
-import { evaluate } from 'mathjs'; // Importar Math.js
+import { evaluate } from 'mathjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorFormDialogComponent } from '../../error-form-dialog/error-form-dialog.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +33,7 @@ import { ErrorFormDialogComponent } from '../../error-form-dialog/error-form-dia
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatButtonToggleModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -41,6 +43,7 @@ export class HomeComponent implements AfterViewInit {
   readonly dialog = inject(MatDialog);
 
   constantsForm = new FormGroup({
+    rlc: new FormControl(false, [Validators.required]),
     m: new FormControl('', [Validators.required]),
     k: new FormControl('', [Validators.required]),
     b: new FormControl('', [Validators.required]),
@@ -52,6 +55,7 @@ export class HomeComponent implements AfterViewInit {
   });
 
   sistemType = '';
+  rlc = false;
 
   private chart!: Chart;
 
@@ -124,8 +128,8 @@ export class HomeComponent implements AfterViewInit {
     };
 
     // Generar valores para la gráfica
-    const labels = Array.from({ length: 100 }, (_, i) => i / 10); // Valores de t (0 a 10 en pasos de 0.1)
-    const datasets = [
+    const labels = Array.from({ length: 1000 }, (_, i) => i / 10); // Valores de t (0 a 10 en pasos de 0.1)
+    const datasets1 = [
       {
         label: 'Y(t)',
         data: labels.map((t) => mathFunctions.yt(t)),
@@ -148,6 +152,24 @@ export class HomeComponent implements AfterViewInit {
         fill: false,
       },
     ];
+    const datasets2 = [
+      {
+        label: 'q(t)',
+        data: labels.map((t) => mathFunctions.yt(t)),
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 2,
+        fill: false,
+      },
+      {
+        label: 'i(t)',
+        data: labels.map((t) => mathFunctions.vt(t)),
+        borderColor: 'rgba(255, 183, 135, 1)',
+        borderWidth: 2,
+        fill: false,
+      },
+    ];
+
+    let datasets = this.rlc ? datasets2 : datasets1;
 
     // Verifica si chart y sus opciones están definidos
     if (this.chart?.options?.plugins?.legend?.labels) {
@@ -168,14 +190,14 @@ export class HomeComponent implements AfterViewInit {
     }
   }
 
+  onSistemTypeChange(ev: any) {
+    this.rlc = ev.value;
+  }
+
   sendData() {
     if (this.constantsForm.invalid) {
       this.dialog.open(ErrorFormDialogComponent);
     } else {
-      console.log(
-        '🚀 ~ HomeComponent ~ sendData ~ this.constantsForm.value:',
-        this.constantsForm.value
-      );
       this.homeService
         .calculate(this.constantsForm.value)
         .subscribe((data: any) => {
@@ -200,6 +222,6 @@ export class HomeComponent implements AfterViewInit {
     };
     this.sistemType = '';
     this.updateChart(functions, true);
-    this.constantsForm.reset({ fT1: 0, fT2: 0 });
+    this.constantsForm.reset({ rlc: false, fT1: 0, fT2: 0 });
   }
 }

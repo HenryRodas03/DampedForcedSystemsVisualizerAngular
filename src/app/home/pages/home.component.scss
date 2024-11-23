@@ -8,32 +8,78 @@ input[type="number"]::-webkit-inner-spin-button {
     display: block;
     height: 100vh;
     /* Asegura que el fondo cubra toda la pantalla */
-    background-image: url('../../../../public/images/backGround.gif');
+    background-image: url('../../../../public/images/universe.gif');
     background-size: cover;
     /* Ajusta el tamaño para cubrir toda la pantalla */
     background-repeat: no-repeat;
     /* Evita que el fondo se repita */
-    background-position: center;
+    background-position: right;
     /* Centra el fondo */
 }
 
+.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0.00005;
+    background-repeat: no-repeat;
+    background-size: cover;
+    will-change: transform;
+    pointer-events: none;
+    /* Evita que interfieran con la interacción */
+}
+
+.layer:nth-child(1) {
+    background-image: url('../../../../public/images/1.png');
+}
+
+.layer:nth-child(2) {
+    background-image: url('../../../../public/images/2.png');
+}
+
+.layer:nth-child(3) {
+    background-image: url('../../../../public/images/3.png');
+}
+
+.layer:nth-child(4) {
+    background-image: url('../../../../public/images/4.png');
+}
+
+.layer:nth-child(5) {
+    background-image: url('../../../../public/images/5.png');
+}
+
+.layer:nth-child(6) {
+    background-image: url('../../../../public/images/6.png');
+}
+
+.layer:nth-child(7) {
+    background-image: url('../../../../public/images/7.png');
+}
+
 .mainCointainer {
+    z-index: 1000;
     width: 100%;
     height: 100%;
 }
 
 .fieldsContainer {
+    z-index: 1000;
     width: 100%;
     display: flex;
 }
 
 .inputsContainer,
 .graphicContainer {
+    z-index: 1000;
     height: 100%;
-    margin: 6% 2%;
+    margin: 2% 2%;
 }
 
 .inputsContainer {
+    z-index: 1000;
     flex: 0.3;
     background-color: #51515191;
     padding: 1%;
@@ -42,13 +88,15 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .graphicContainer {
+    z-index: 1000;
     flex: 0.7;
 }
 
 .chart {
     background-color: rgb(81 81 81 / 96%);
     border-radius: 11px;
-    box-shadow: 8px 10px #02fff37d
+    box-shadow: 8px 10px #02fff37d;
+    height: 74vh;
 }
 
 .calculateButton {

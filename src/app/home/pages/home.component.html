@@ -7,18 +7,32 @@
             <form class="example-form" [formGroup]="constantsForm">
 
                 <div>
-                    <h3>Constantes</h3>
+                    <div style="display: flex;">
+                        <h3>Constantes</h3>
+                        <div style="margin-left: 20%; height: 60%;">
+                            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="rlc"
+                                (change)="onSistemTypeChange($event)">
+                                <mat-button-toggle [value]="false">MRA</mat-button-toggle>
+                                <mat-button-toggle [value]="true">RLC</mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                    </div>
                     <mat-form-field class="example-full-width">
-                        <mat-label>ingrese masa (M)</mat-label>
-                        <input type="number" matInput placeholder="Masa" formControlName="m">
+                        <mat-label> {{rlc?"ingrese la inductansia (L)":"ingrese masa (M)"}}</mat-label>
+                        <input type="number" matInput [placeholder]="rlc?'Inductansia (L)':'Masa (M)'"
+                            formControlName="m">
                     </mat-form-field>
                     <mat-form-field class="example-full-width">
-                        <mat-label>ingrese constate elastica (K)</mat-label>
-                        <input type="number" matInput placeholder="constate elastica" formControlName="k">
+                        <mat-label> {{rlc?"ingrese la capacitancia (C)":"ingrese constate elastica (K)"}}</mat-label>
+                        <input type="number" matInput [placeholder]="rlc?'Capacitania (C)':'Constate elastica (K)'"
+                            formControlName="k">
                     </mat-form-field>
                     <mat-form-field class="example-full-width">
-                        <mat-label>ingrese constante de amortiguamiento (B)</mat-label>
-                        <input type="number" matInput placeholder="constante de amortiguamiento" formControlName="b">
+                        <mat-label>{{rlc?"ingrese la resistencia (R)":"ingrese constante de
+                            amortiguamiento(B)"}}</mat-label>
+                        <input type="number" matInput
+                            [placeholder]="rlc?'Resistencia (R)':'Constante de amortiguamiento (B)'"
+                            formControlName="b">
                     </mat-form-field>
                     <mat-form-field class="example-full-width">
                         <mat-label>ingrese valor inicial (C1)</mat-label>
@@ -30,17 +44,17 @@
                     </mat-form-field>
                 </div>
                 <div>
-                    <h3>Función de fuerza (Ft)</h3>
+                    <h3>{{rlc?"Función de Energia (Et)":"Función de fuerza (Ft)"}}</h3>
 
                     <mat-radio-group aria-label="Select an option" formControlName="ftType"
                         (change)="onFtTypeChange($event)">
-                        <mat-radio-button [value]="1">Ft = 0</mat-radio-button>
+                        <mat-radio-button [value]="1">{{rlc?'Et':'Ft'}} = 0</mat-radio-button>
                         <mat-radio-button [value]="2"><input type="number" class="no-spin"
                                 onInput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 formControlName="fT1">Seno(<input type="number" class="no-spin"
                                 onInput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 formControlName="fT2">t)</mat-radio-button>
-                        <mat-radio-button [value]="3">Ft = t</mat-radio-button>
+                        <mat-radio-button [value]="3">{{rlc?'Et':'Ft'}} = t</mat-radio-button>
                     </mat-radio-group>
 
                 </div>
@@ -72,5 +86,12 @@
 
     </div>
 
+    <div class="layer" data-speed="0.2"></div>
+    <div class="layer" data-speed="0.4"></div>
+    <div class="layer" data-speed="0.6"></div>
+    <div class="layer" data-speed="0.8"></div>
+    <div class="layer" data-speed="1.0"></div>
+    <div class="layer" data-speed="1.2"></div>
+    <div class="layer" data-speed="1.5"></div>
 
 </div>
